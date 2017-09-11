@@ -60,7 +60,7 @@ const iterativeTreeContainer = document.getElementById('iterative-tree-container
 
 function renderNode(container, element, level) {
     let resultText = '';
-    for(let i = 0; i<level; i+=1) {
+    for(let i = 0; i < level; i += 1) {
         resultText += '-';
     }
     resultText = `${resultText} ${element.label}`;
@@ -97,9 +97,9 @@ function renderIterative(container, nodes) {
         }
     ];
 
-    let stackItem = 0;
+    let stackItemId = 0;
     let current;
-    while(current = stack[stackItem]) {
+    while(current = stack[stackItemId]) {
         renderNode(container, current.element, current.level);
         if (current.element.childs) {
             current.element.childs.forEach(function(node){
@@ -109,7 +109,7 @@ function renderIterative(container, nodes) {
                 })
             });
         }
-        stackItem += 1;
+        stackItemId += 1;
     }
 }
 
