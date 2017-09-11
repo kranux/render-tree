@@ -1,8 +1,24 @@
 <html>
-
+    <style>
+        ul {
+            list-style-type: none;
+        }
+        #tree-container {
+            display: flex;
+        }
+    </style>
 <body>
-    <ul id="recursive-tree-container">
-    </ul>
+    <div id="tree-container">
+        <div id="recursive">
+            <ul id="recursive-tree-container">
+            </ul>
+        </div>
+
+        <div id="iterative">
+            <ul id="iterative-tree-container">
+            </ul>
+        </div>
+    </div>
     <script src="index.js" ></script>
 </body>
 

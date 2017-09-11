@@ -1,33 +1,62 @@
 const data = [
-{
-    label: 'Lorem',
-    childs: [
-        {
-            label: 'Ipsum'
-        },
-        {
-            label: 'Dolor',
-            childs: [
-                {
-                    'label': 'Orci',
-                    childs: [
-                        {
-                            label: 'Quis',
-                            childs: [
-                                {
-                                    label: 'Odio'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-}
+    {
+        label: 'Lorem',
+        childs: [
+            {
+                label: 'Ipsum'
+            },
+            {
+                label: 'Dolor',
+                childs: [
+                    {
+                        label: 'Orci',
+                        childs: [
+                            {
+                                label: 'Quis',
+                                childs: [
+                                    {
+                                        label: 'Odio'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                label: 'Sit',
+                childs: [
+                    {
+                        label: 'Amet',
+                    },
+                    {
+                        label: 'Consectetur'
+                    }
+                ]
+            },
+            {
+                label: 'Adioiscing',
+                childs: [
+                    {
+                        label: 'Elit',
+                        childs: [
+                            {
+                                label: 'Vestibulum'
+                            },
+                            {
+                                label: 'Vitae'
+                            }
+                        ]
+                    }
+
+                ]
+            }
+        ]
+    }
 ];
 
 const recursiveTreeContainer = document.getElementById('recursive-tree-container');
+const iterativeTreeContainer = document.getElementById('iterative-tree-container');
 
 function renderNode(container, element, level) {
     let resultText = '';
@@ -51,13 +80,37 @@ function renderNode(container, element, level) {
     container.appendChild(listItem);
 }
 
-function renderRecursive(container, data, level) {
-    data.forEach(function(element) {
-        renderNode(container, element, level);
-        if (element.childs) {
-            renderRecursive(container, element.childs, level + 1);
+function renderRecursive(container, nodes, level) {
+    nodes.forEach(function(node) {
+        renderNode(container, node, level);
+        if (node.childs) {
+            renderRecursive(container, node.childs, level + 1);
         }
     });
+}
+
+function renderIterative(container, nodes) {
+    const stack = [
+        {
+            level: 0,
+            element: nodes[0]
+        }
+    ];
+
+    let stackItem = 0;
+    let current;
+    while(current = stack[stackItem]) {
+        renderNode(container, current.element, current.level);
+        if (current.element.childs) {
+            current.element.childs.forEach(function(node){
+                stack.push({
+                    element: node,
+                    level: current.level + 1
+                })
+            });
+        }
+        stackItem += 1;
+    }
 }
 
 function emptyNode(node) {
@@ -69,7 +122,11 @@ function emptyNode(node) {
 function render() {
     emptyNode(recursiveTreeContainer);
     renderRecursive(recursiveTreeContainer, data, 0);
+
+    emptyNode(iterativeTreeContainer);
+    renderIterative(iterativeTreeContainer, data);
 }
+
 window.addEventListener('load', function() {
     render();
 });
