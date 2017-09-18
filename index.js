@@ -69,10 +69,9 @@ function renderNode(container, element, level) {
     const button = document.createElement('a');
     button.appendChild(document.createTextNode(' +'));
     button.addEventListener('click', function() {
+        const label = prompt('Enter name:'); 
         element.childs = element.childs || [];
-        element.childs.push({
-            label: `Child of '${element.label}' \#${element.childs.length + 1}`
-        });
+        element.childs.push({label});
         render();
     });
 
@@ -97,19 +96,17 @@ function renderIterative(container, nodes) {
         }
     ];
 
-    let stackItemId = 0;
     let current;
-    while(current = stack[stackItemId]) {
+    while(current = stack.pop()) {
         renderNode(container, current.element, current.level);
         if (current.element.childs) {
-            current.element.childs.forEach(function(node){
+            [...current.element.childs].reverse().forEach(function(node){
                 stack.push({
                     element: node,
                     level: current.level + 1
                 })
             });
         }
-        stackItemId += 1;
     }
 }
 
